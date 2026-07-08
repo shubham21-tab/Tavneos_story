@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Inside the FDA's Case Against Tavneos</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap');
+
+  :root{
+    --bg:#f7f5f0;
+    --ink:#1b1a17;
+    --muted:#6b6558;
+    --line:#ddd7c8;
+    --card:#ffffff;
+    --accent:#9a3324;
+    --accent-soft:#f3e4de;
+    --good:#3d6b4f;
+    --good-soft:#e3ede6;
+    --gold:#b08d4f;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:'Inter',sans-serif; line-height:1.6;
+  }
+  .wrap{max-width:880px; margin:0 auto; padding:60px 24px 120px;}
+
+  header{margin-bottom:52px;}
+  .kicker{
+    font-size:12px; font-weight:600; letter-spacing:0.16em; text-transform:uppercase;
+    color:var(--accent); margin-bottom:14px; display:flex; align-items:center; gap:10px;
+  }
+  .kicker::before{content:""; width:24px; height:1px; background:var(--accent); display:inline-block;}
+  h1{
+    font-family:'Fraunces', serif; font-weight:700; font-size:clamp(32px,5.6vw,50px);
+    line-height:1.04; margin:0 0 18px; letter-spacing:-0.01em;
+  }
+  header p.lede{font-size:16px; color:var(--muted); max-width:66ch; margin:0 0 14px;}
+  header p.lede b{color:var(--ink); font-weight:600;}
+  .docref{
+    font-size:12px; color:var(--muted); border:1px solid var(--line); border-radius:8px;
+    padding:10px 14px; display:inline-block; margin-top:8px;
+  }
+  .docref b{color:var(--ink);}
+
+  .stat-row{
+    display:grid; grid-template-columns:repeat(4,1fr); gap:1px;
+    background:var(--line); border:1px solid var(--line);
+    margin-top:28px; border-radius:10px; overflow:hidden;
+  }
+  .stat{background:var(--card); padding:16px 12px;}
+  .stat .n{font-family:'Fraunces',serif; font-weight:700; font-size:21px;}
+  .stat .l{font-size:10.5px; color:var(--muted); text-transform:uppercase; letter-spacing:0.04em; margin-top:2px;}
+  @media (max-width:600px){.stat-row{grid-template-columns:repeat(2,1fr);}}
+
+  nav{
+    position:sticky; top:0; z-index:10;
+    background:rgba(247,245,240,0.94); backdrop-filter:blur(6px);
+    display:flex; gap:4px; padding:14px 0; margin-bottom:8px;
+    border-bottom:1px solid var(--line); overflow-x:auto;
+  }
+  nav button{
+    font-family:'Inter',sans-serif; font-size:13px; font-weight:600;
+    color:var(--muted); background:none; border:none; cursor:pointer;
+    padding:8px 14px; border-radius:20px; white-space:nowrap; transition:all 0.15s ease;
+  }
+  nav button.active{background:var(--ink); color:var(--bg);}
+  nav button:not(.active):hover{background:var(--line);}
+
+  section{padding:46px 0; border-bottom:1px solid var(--line);}
+  section:last-of-type{border-bottom:none;}
+  .section-head{display:flex; align-items:baseline; gap:14px; margin-bottom:8px;}
+  .section-head .idx{font-family:'Fraunces',serif; font-size:14px; color:var(--gold); font-weight:700;}
+  h2{font-family:'Fraunces',serif; font-size:25px; font-weight:700; margin:0;}
+  .section-sub{color:var(--muted); font-size:14.5px; max-width:64ch; margin:8px 0 26px;}
+
+  p.body-text{font-size:14.5px; color:var(--ink); max-width:68ch; margin:0 0 14px;}
+  p.body-text b{color:var(--accent);}
+
+  /* legal grounds boxes */
+  .grounds{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:18px 0;}
+  @media (max-width:600px){.grounds{grid-template-columns:1fr;}}
+  .ground{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:18px 20px;}
+  .ground .tag{font-size:10.5px; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; color:var(--accent);}
+  .ground h4{font-family:'Fraunces',serif; font-size:16px; margin:6px 0 8px;}
+  .ground p{font-size:13px; color:var(--muted); margin:0;}
+  .ground .law{font-size:11px; color:var(--gold); margin-top:8px; font-weight:600;}
+
+  /* Timeline */
+  .tl{position:relative;}
+  .tl::before{content:""; position:absolute; left:15px; top:8px; bottom:8px; width:1px; background:var(--line);}
+  .titem{position:relative; margin-bottom:2px;}
+  .thead{
+    display:grid; grid-template-columns:32px 108px 1fr 20px; align-items:center; gap:14px;
+    padding:16px 8px; cursor:pointer; border-radius:8px; transition:background 0.15s ease;
+  }
+  .thead:hover{background:rgba(0,0,0,0.02);}
+  .tdot{width:11px; height:11px; border-radius:50%; background:var(--muted); box-shadow:0 0 0 5px var(--bg); position:relative; z-index:1; margin-left:10px;}
+  .titem.flag .tdot{background:var(--accent);}
+  .titem.good .tdot{background:var(--good);}
+  .tdate{font-size:11.5px; font-weight:700; color:var(--muted); font-variant-numeric:tabular-nums;}
+  .ttitle{font-size:15px; font-weight:600;}
+  .tchev{color:var(--muted); font-size:13px; transition:transform 0.2s ease;}
+  .titem.open .tchev{transform:rotate(90deg); color:var(--accent);}
+  .tbody{max-height:0; overflow:hidden; transition:max-height 0.4s ease;}
+  .titem.open .tbody{max-height:900px;}
+  .tbody-inner{padding:0 8px 26px 154px; font-size:13.5px; color:var(--muted); max-width:62ch;}
+  .tbody-inner p{margin:0 0 12px;}
+  .tbody-inner p:last-child{margin-bottom:0;}
+  .tbody-inner .quote{
+    border-left:2px solid var(--gold); padding-left:12px; margin:10px 0; font-style:italic; color:var(--ink);
+  }
+  .pill{display:inline-block; font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; padding:3px 9px; border-radius:20px; margin-bottom:10px;}
+  .pill.flag{background:var(--accent-soft); color:var(--accent);}
+  .pill.good{background:var(--good-soft); color:var(--good);}
+  @media (max-width:600px){
+    .thead{grid-template-columns:20px 80px 1fr 16px; gap:8px;}
+    .tbody-inner{padding-left:106px;}
+  }
+
+  /* table */
+  .tbl-wrap{overflow-x:auto; margin:16px 0;}
+  table.readj{
+    width:100%; border-collapse:collapse; font-size:12.5px; background:var(--card);
+    border:1px solid var(--line); border-radius:10px; overflow:hidden;
+  }
+  table.readj th{
+    background:var(--ink); color:var(--bg); font-weight:600; text-align:left;
+    padding:10px 12px; font-size:11px; text-transform:uppercase; letter-spacing:0.03em;
+  }
+  table.readj td{padding:9px 12px; border-top:1px solid var(--line);}
+  table.readj tr.avacopan{background:var(--accent-soft);}
+  table.readj tr.avacopan td{color:var(--ink);}
+  .flip{color:var(--accent); font-weight:700;}
+  .nochange{color:var(--muted);}
+
+  /* cast */
+  .grid{display:grid; grid-template-columns:1fr 1fr; gap:14px;}
+  @media (max-width:600px){.grid{grid-template-columns:1fr;}}
+  .card{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:20px 22px; cursor:pointer; transition:box-shadow 0.2s ease, transform 0.2s ease;}
+  .card:hover{box-shadow:0 6px 20px rgba(0,0,0,0.06); transform:translateY(-2px);}
+  .card .role{font-size:11px; font-weight:700; color:var(--accent); text-transform:uppercase; letter-spacing:0.05em; margin-bottom:6px;}
+  .card .name{font-family:'Fraunces',serif; font-size:18px; font-weight:700; margin-bottom:8px;}
+  .card .desc{font-size:13px; color:var(--muted); max-height:0; overflow:hidden; transition:max-height 0.35s ease;}
+  .card.open .desc{max-height:400px; margin-top:4px;}
+  .card .hint{font-size:11px; color:var(--gold); font-weight:600; margin-top:8px;}
+  .card.open .hint{display:none;}
+
+  /* email exhibit style */
+  .exhibit{
+    background:#fffef9; border:1px solid var(--line); border-radius:10px;
+    padding:16px 18px; font-family:'Courier New',monospace; font-size:12.5px;
+    margin:14px 0; color:var(--ink);
+  }
+  .exhibit .exhibit-meta{color:var(--muted); font-size:11px; margin-bottom:8px;}
+  .exhibit .exhibit-meta b{color:var(--ink);}
+
+  .callout{background:var(--accent-soft); border:1px solid #e6c7ba; border-radius:12px; padding:22px 24px; margin-top:20px;}
+  .callout .lbl{font-size:12px; font-weight:700; color:var(--accent); text-transform:uppercase; letter-spacing:0.05em; margin-bottom:12px;}
+  .callout p{font-size:13.5px; margin:0 0 10px; color:var(--ink);}
+  .callout p:last-child{margin-bottom:0;}
+
+  .steps{counter-reset:step;}
+  .step{display:grid; grid-template-columns:44px 1fr; gap:18px; padding:20px 0; border-bottom:1px solid var(--line);}
+  .step:last-child{border-bottom:none;}
+  .step .marker{width:36px; height:36px; border-radius:50%; background:var(--ink); color:var(--bg); display:flex; align-items:center; justify-content:center; font-family:'Fraunces',serif; font-weight:700; font-size:14px;}
+  .step .when{font-size:12px; font-weight:700; color:var(--gold); text-transform:uppercase; letter-spacing:0.04em; margin-bottom:4px;}
+  .step .what b{font-family:'Fraunces',serif; font-size:16.5px; font-weight:700; display:block; margin-bottom:6px;}
+  .step .what p{font-size:13.5px; color:var(--muted); margin:0; max-width:58ch;}
+
+  a.ref{color:var(--accent); text-decoration:none; font-weight:600; border-bottom:1px solid var(--accent-soft);}
+  a.ref:hover{border-bottom-color:var(--accent);}
+  .refs-list{font-size:12.5px; color:var(--muted); line-height:1.9;}
+  .refs-list li{margin-bottom:5px;}
+  .refs-list a{color:var(--muted); text-decoration:underline; text-decoration-color:var(--line);}
+  .refs-list a:hover{color:var(--accent);}
+
+  footer{margin-top:60px; padding-top:24px; border-top:1px solid var(--line); font-size:12px; color:var(--muted); display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;}
+  ::selection{background:var(--gold); color:#fff;}
+
+#progress{position:fixed;top:0;left:0;height:4px;width:0;background:#9a3324;z-index:9999;transition:width .1s}
+body{background:radial-gradient(circle at top right,#ffffff,#f7f5f0);}
+section{opacity:0;transform:translateY(24px);transition:all .7s ease}
+section.visible{opacity:1;transform:none}
+.card:hover,.ground:hover{transform:translateY(-4px) scale(1.01);box-shadow:0 10px 24px rgba(0,0,0,.08)}
+.stat .n{transition:transform .3s}
+.stat:hover .n{transform:scale(1.08)}
+</style>
+</head>
+<body>
+<div id="progress"></div>
+<div class="wrap">
+
+  <header>
+    <h1>Inside the FDA's Case Against Tavneos</h1>
+    <p class="lede">This story is based primarily on the FDA's <a class="ref" href="https://www.fda.gov/media/192160/download" target="_blank">Notice of Opportunity for a Hearing issued to Amgen</a>. On April 27, 2026, the FDA's Center for Drug Evaluation and Research (CDER) initiated proceedings to withdraw approval of Tavneos (avacopan), alleging post-lock manipulation of the ADVOCATE trial. The notice provides a detailed, date-by-date account of the events described below.</p>
+    <div class="docref">Docket No. <b>FDA-2026-N-1321</b> · NDA <b>214487</b> · Signed by Tracy Beth Høeg, MD, PhD, Acting Director, CDER</div>
+    <div class="stat-row">
+      <div class="stat"><div class="n">331</div><div class="l">Patients in ADVOCATE</div></div>
+      <div class="stat"><div class="n">9</div><div class="l">Readjudicated post-lock</div></div>
+      <div class="stat"><div class="n">0.1025 → 0.0132</div><div class="l">P-value, before/after</div></div>
+      <div class="stat"><div class="n">76</div><div class="l">Post-market liver injury cases</div></div>
+    </div>
+<div class="callout" style="margin-top:28px">
+<div class="lbl">Key Takeaways</div>
+<ul style="margin:0;padding-left:18px;line-height:1.8">
+<li>FDA alleges post-lock manipulation of trial outcome adjudication.</li>
+<li>Nine patients were readjudicated after database lock.</li>
+<li>Primary endpoint changed from p=0.1025 to p=0.0132.</li>
+<li>FDA proposes withdrawal of Tavneos approval.</li>
+<li>EMA later reached a similar scientific conclusion.</li>
+</ul>
+</div>
+
+  </header>
+
+  <nav>
+    <button class="navbtn active" data-target="s-grounds">Legal Grounds</button>
+    <button class="navbtn" data-target="s-timeline">The 11 Days</button>
+    <button class="navbtn" data-target="s-table">What Changed</button>
+    <button class="navbtn" data-target="s-cast">Who's Involved</button>
+    <button class="navbtn" data-target="s-argument">FDA's Argument</button>
+    <button class="navbtn" data-target="s-ema">How This Reached the EMA</button>
+    <button class="navbtn" data-target="s-next">What's Next</button>
+    <button class="navbtn" data-target="s-refs">Sources</button>
+  </nav>
+
+  <!-- LEGAL GROUNDS -->
+  <section id="s-grounds">
+    <div class="section-head"><div class="idx">01</div><h2>Two Legal Grounds</h2></div>
+    <p class="section-sub">The FDA isn't just questioning the science , it's invoking two specific provisions of the Federal Food, Drug, and Cosmetic Act, either of which is independently sufficient to justify withdrawal.</p>
+    <div class="grounds">
+      <div class="ground">
+        <div class="tag">Ground One</div>
+        <h4>Lack of substantial evidence of effectiveness</h4>
+        <p>New information shows the trial's primary endpoint results were manipulated after database lock. Once the manipulated data is set aside, the FDA says the original, valid analysis never actually showed the drug worked , meaning the legal bar for approval was never truly met.</p>
+        <div class="law">§505(e)(3) FD&C Act · 21 CFR 314.150(a)(2)(iii)</div>
+      </div>
+      <div class="ground">
+        <div class="tag">Ground Two</div>
+        <h4>Untrue statements of material fact</h4>
+        <p>Separately , and more seriously , the FDA says ChemoCentryx's application itself contained false statements: about when and how many times the database was locked, and about what analyses were actually used to evaluate the trial.</p>
+        <div class="law">§505(e)(5) FD&C Act · 21 CFR 314.150(a)(2)(iv)</div>
+      </div>
+    </div>
+    <p class="body-text">The letter is blunt about why this matters beyond this one drug: <span class="quote" style="display:block;border-left:2px solid var(--gold);padding-left:12px;margin-top:10px;font-style:italic;">"Withdrawing a drug under these circumstances is critical to protect the public health and the integrity of the drug approval process. Otherwise, applicants would be incentivized to deceive FDA and, if the deception is discovered by FDA after approval, claim the drug should remain on the market while the applicant gets another chance to reanalyze data and hope for a positive result."</span></p>
+  </section>
+
+  <!-- TIMELINE: THE 11 DAYS -->
+  <section id="s-timeline">
+    <div class="section-head"><div class="idx">02</div><h2>The Eleven Days That Broke the Trial</h2></div>
+    <p class="section-sub">The FDA reconstructs, almost hour by hour, what happened between November 5-20, 2019 , the two-week window in which ADVOCATE's outcome flipped from failure to "success." Click any entry to read the FDA's account in full.</p>
+    <div class="tl" id="tl-list"></div>
+  </section>
+
+  <!-- WHAT CHANGED: TABLE -->
+  <section id="s-table">
+    <div class="section-head"><div class="idx">03</div><h2>What Actually Changed</h2></div>
+    <p class="section-sub">Nine patients were selected for "readjudication" after the database was already locked and unblinded. Six were in the avacopan arm; five of those six flipped to "sustained remission." Only one of three control-arm patients changed at all, and , tellingly , none of the three control patients even had their week-52 status reassessed, since two had already left the trial early and the third's steroid use made a flip impossible either way.</p>
+    <div class="tbl-wrap">
+      <table class="readj">
+        <thead>
+          <tr><th>Arm & Subject</th><th>Wk 26 Remission (before)</th><th>Wk 52 Sustained Remission (before)</th><th>Wk 26 Remission (after)</th><th>Wk 52 Sustained Remission (after)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Control · 428-001</td><td>No</td><td>No (early exit)</td><td class="nochange">Yes</td><td class="nochange">No (early exit)</td></tr>
+          <tr><td>Control · 852-001</td><td>No</td><td>No</td><td class="nochange">Yes</td><td class="nochange">No</td></tr>
+          <tr><td>Control · 957-002</td><td>No</td><td>No (early exit)</td><td class="nochange">Yes</td><td class="nochange">No (early exit)</td></tr>
+          <tr class="avacopan"><td><b>Avacopan · 440-002</b></td><td>No</td><td>No</td><td>Yes</td><td class="flip">Yes ✓ flipped</td></tr>
+          <tr class="avacopan"><td><b>Avacopan · 466-003</b></td><td>No</td><td>No</td><td>Yes</td><td class="flip">Yes ✓ flipped</td></tr>
+          <tr class="avacopan"><td><b>Avacopan · 534-001</b></td><td>No</td><td>No</td><td>Yes</td><td class="flip">Yes ✓ flipped</td></tr>
+          <tr class="avacopan"><td><b>Avacopan · 702-001</b></td><td>No</td><td>No</td><td>Yes</td><td class="flip">Yes ✓ flipped</td></tr>
+          <tr class="avacopan"><td><b>Avacopan · 751-001</b></td><td>Yes</td><td>No</td><td>Yes</td><td class="flip">Yes ✓ flipped</td></tr>
+          <tr class="avacopan"><td><b>Avacopan · 854-001</b></td><td>No</td><td>No</td><td>Yes</td><td class="nochange">No (no change)</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="body-text" style="margin-top:14px;">Five of six avacopan-arm patients reviewed were reclassified into "sustained remission" , the trial's key measure of success. That swing was enough, on its own, to move the overall result from statistically non-significant (p=0.1025) to significant (p=0.0132). The FDA notes one of the nine , subject 466-003 , involved a genuine manual data-entry error; the other eight turned on debatable interpretations of missing-data and steroid-use rules that, per the FDA, should have been resolved <i>before</i> the database was ever locked, not after everyone already knew which patients got the real drug.</p>
+  </section>
+
+  <!-- CAST -->
+  <section id="s-cast">
+    <div class="section-head"><div class="idx">04</div><h2>Who's Involved</h2></div>
+    <p class="section-sub">Click a card to see each person's role in the events.</p>
+    <div class="grid" id="cast-grid"></div>
+  </section>
+
+  <!-- FDA'S ARGUMENT -->
+  <section id="s-argument">
+    <div class="section-head"><div class="idx">05</div><h2>Why the FDA Says This Can't Be Fixed</h2></div>
+    <p class="section-sub">Amgen's position is that the readjudications simply corrected genuine data errors. The FDA directly rejects that framing, for reasons that come down to basic trial-design logic.</p>
+    <p class="body-text"><b>Blinding exists to prevent exactly this.</b> The whole point of a double-blind trial is that nobody analyzing outcomes knows who got the real drug. The moment two ChemoCentryx staff saw unblinded data and then went looking for patients to reclassify, any subsequent "correction" was inherently compromised , deliberately or not.</p>
+    <p class="body-text"><b>The selection pattern gives it away.</b> The FDA points out that twice as many avacopan patients were flagged for review as control patients (six versus three), every single patient chosen was one whose reclassification could only help the drug's numbers, and the three control patients selected couldn't have changed the outcome even if reclassified , two had already exited the trial early, and the third's steroid use blocked a "sustained remission" finding regardless. Tellingly, no one even bothered requesting a week-52 review for those three.</p>
+    <p class="body-text"><b>You can't re-test your way to the truth.</b> Statistically, re-analyzing the same data repeatedly after seeing an unfavorable result inflates the odds of a false positive (Type I error) , precisely what pre-registered statistical analysis plans exist to prevent. The FDA states plainly that no further reanalysis, blinded or not, can rehabilitate this trial: the only valid analysis is the original one from November 5, 2019, and that one failed.</p>
+    <p class="body-text"><b>Even the paperwork forbade it.</b> The trial's own Adjudication Committee Charter explicitly barred readjudication after database lock, stating "no changes may be entered into EDC after database lock" and "there will be no blinded BVAS listings for review after unblinding." The FDA states directly that none of the nine readjudications were justified or permitted under that charter.</p>
+    <p class="body-text"><b>It fooled the agency's own decision-makers.</b> The FDA reveals that its own primary review team did <i>not</i> recommend approval even without knowing about the manipulation , the drug was approved anyway because a division director believed (based on what turned out to be false representations) that the trial was a large, well-controlled, low-bias study. Had he known the true, non-significant original result, the FDA notice states he would not have recommended approval.</p>
+  </section>
+
+  <!-- HOW THIS REACHED THE EMA -->
+  <section id="s-ema">
+    <div class="section-head"><div class="idx">06</div><h2>How These Findings Reached the EMA</h2></div>
+    <p class="section-sub">The FDA notice and the EMA's revocation recommendation aren't two separate developments , they're two regulators responding to the exact same underlying facts, on their own legal tracks, a few weeks apart.</p>
+
+    <p class="body-text"><b>Same trigger, same evidence.</b> The Walton Report that surfaced in the ChemoCentryx shareholder litigation in May 2025 is the root event for both agencies. Once the FDA's own investigation confirmed the report's core allegations , via Amgen's August 2025 response , the same underlying facts about the November 2019 database manipulation became the basis for the EMA's independent review, opened in January 2026. Neither agency had to do original detective work; both were working from the same reconstructed timeline of unblinded access, targeted patient selection, and the p-value flip from 0.1025 to 0.0132.</p>
+
+    <p class="body-text"><b>Different legal machinery, same conclusion.</b> The FDA is built around two specific US statutory grounds , lack of substantial evidence of effectiveness, and untrue statements of material fact under the FD&C Act. The EMA operates under EU pharmacovigilance law and its CHMP scientific review process, which doesn't use the same "untrue statement" framing. But the CHMP's own finding , that the ADVOCATE trial breached good clinical practice and that the submitted efficacy data were "inaccurate and misleading" , is substantively the same conclusion the FDA reaches in far more granular detail: the trial's headline result cannot be trusted because of what happened after unblinding.</p>
+
+    <p class="body-text"><b>The FDA directly undercuts Amgen's EU defense too.</b> Amgen's strategy at its own July 2026 FDA hearing rests on the Duke Clinical Research Institute's independent, blinded re-adjudication , essentially arguing the drug still works if you redo the analysis properly. But the FDA pre-empts that exact argument on statistical grounds: it states that <i>any</i> further reanalysis, blinded or not, increases the risk of a false positive once the original prespecified analysis has already failed and been reworked. Because the EMA's CHMP reached its revocation recommendation without waiting for the Duke results, and because the same statistical objection applies equally in Brussels as in Washington, the FDA's reasoning here effectively forecloses the strongest rebuttal Amgen has in both jurisdictions.</p>
+
+    <p class="body-text"><b>Timing tells the story.</b> The FDA formally proposed withdrawal on April 27, 2026 , the same letter broken down on this page. The EMA's CHMP followed with its own revocation recommendation on June 26, 2026, and the NEJM retraction landed just three days later. Three independent bodies , a US regulator, an EU scientific committee, and a medical journal's editorial board , converged on the same conclusion within about nine weeks of each other, all tracing back to the eleven days in November 2019 detailed above.</p>
+
+    <div class="callout" style="background:var(--good-soft); border-color:#bcdcc9;">
+      <div class="lbl" style="color:var(--good);">The through-line, in one sentence</div>
+      <p>The FDA is the detailed evidentiary record; the EMA's revocation and the NEJM retraction are two separate institutions independently agreeing, on the strength of that same record, that the ADVOCATE trial's result cannot stand.</p>
+    </div>
+  </section>
+
+  <!-- NEXT -->
+  <section id="s-next">
+    <div class="section-head"><div class="idx">07</div><h2>What Happens From Here</h2></div>
+    <div class="steps">
+      <div class="step">
+        <div class="marker">1</div>
+        <div class="what"><div class="when">30 days from publication</div><b>Amgen must request a hearing</b><p>Under 21 CFR 314.200, ChemoCentryx (via Amgen) has 30 days from the Federal Register notice to file a written notice of participation and request for a hearing, or it forfeits the right to contest the withdrawal entirely.</p></div>
+      </div>
+      <div class="step">
+        <div class="marker">2</div>
+        <div class="what"><div class="when">60 days from publication</div><b>Amgen must show a genuine factual dispute</b><p>Amgen must submit the data, information, and analyses it's relying on. A request can't rest on bare denials , it must show a genuine, substantial issue of fact. If it doesn't, the FDA Commissioner can enter summary judgment and deny a hearing outright.</p></div>
+      </div>
+      <div class="step">
+        <div class="marker">3</div>
+        <div class="what"><div class="when">July 2026</div><b>The hearing itself</b><p>Amgen is expected to lean on the Duke Clinical Research Institute's independent, blinded re-adjudication to argue the drug's benefit holds up regardless. Given the FDA's position that <i>any</i> further reanalysis is statistically compromised, this is an uphill argument.</p></div>
+      </div>
+      <div class="step">
+        <div class="marker">4</div>
+        <div class="what"><div class="when">Until a final order</div><b>The drug stays on shelves</b><p>Tavneos remains legally marketable in the US throughout this process , it can only be pulled once ChemoCentryx either fails to request a hearing (an automatic waiver) or the Commissioner issues a final withdrawal order after the hearing process concludes.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- REFERENCES -->
+  <section id="s-refs">
+    <div class="section-head"><div class="idx">08</div><h2>Sources</h2></div>
+    <p class="section-sub">This page is drawn primarily from the FDA's Notice of Opportunity for a Hearing itself, plus supporting reporting.</p>
+    <ol class="refs-list">
+      <li><a href="https://www.fda.gov/media/192160/download" target="_blank">Letter NOOH Taveneos (avacopan)</a></li>
+      <li><a href="https://www.fda.gov/drugs/drug-alerts-and-statements/cder-proposes-withdraw-approval-tavneos" target="_blank">CDER Proposes to Withdraw Approval of TAVNEOS , FDA</a></li>
+      <li><a href="https://www.ema.europa.eu/en/news/ema-recommends-revoking-marketing-authorisation-tavneos" target="_blank">EMA Recommends Revoking Marketing Authorisation for Tavneos , European Medicines Agency</a></li>
+      <li><a href="https://www.rheum-live.com/view/avacopan-investigators-retract-suspect-advocate-data-ema-seeks-to-revoke-authorization" target="_blank">Avacopan: Investigators Retract Suspect ADVOCATE Data , Rheumatology Live</a></li>
+      <li><a href="https://www.healio.com/news/rheumatology/20260515/fda-seeks-to-withdraw-avacopan-approval-over-alleged-data-manipulation-false-statements" target="_blank">FDA Seeks to Withdraw Avacopan Approval , Healio</a></li>
+      <li><a href="https://pubmed.ncbi.nlm.nih.gov/33596356/" target="_blank">Jayne et al., "Avacopan for the Treatment of ANCA-Associated Vasculitis," NEJM 2021 (original, since-retracted paper)</a></li>
+      <li><a href="https://en.wikipedia.org/wiki/Avacopan" target="_blank">Avacopan , Wikipedia</a></li>
+    </ol>
+  </section>
+
+  <footer>
+    <div>Built from the FDA's April 27, 2026 Notice of Opportunity for a Hearing (redacted copy)</div>
+    <div>Last updated 7 July 2026</div>
+  </footer>
+</div>
+
+<script>
+const events = [
+  {date:"5 Nov 2019", title:"Database locked. Unblinded review begins.", flag:"", tag:"Day 1", body:[
+    "After Medpace (the contract research organization) completed pre-lock checklists confirming the data were clean and ready, the ADVOCATE database was locked and unblinded for the first time.",
+    "Per the trial's pre-approved Study Results Analysis Plan, two ChemoCentryx employees , Dr. Huibin Yue (Director of Biostatistics) and Dr. Pirow Bekker (Chief Medical Officer) , were permitted limited unblinded access, solely for a quality-control review of data completeness and internal consistency."
+  ]},
+  {date:"8 Nov 2019", title:"The topline numbers arrive , and they're bad", flag:"flag", tag:"Turning Point", body:[
+    "Unblinded datasets and top-line efficacy tables were transferred to Dr. Bekker. The primary endpoint , sustained remission at week 52 , had failed to reach statistical significance, returning a two-sided p-value of 0.1025 (the threshold was 0.05).",
+    "This result was never disclosed to the FDA at any point during the NDA review."
+  ]},
+  {date:"9 Nov 2019", title:"\"We cannot afford to miss a superiority outcome\"", flag:"flag", tag:"In Their Own Words", body:[
+    "Dr. Bekker emailed Dr. Yue asking him and an outside statistical consultant to re-verify the week-52 results, writing: <span class=\"quote\">\"Regarding sustained remission at Week 52 it is, of course, of paramount importance that the data are correct (especially the p-value for superiority). Chao and you must verify these results ASAP. We cannot afford to miss a superiority outcome here.\"</span>",
+    "The FDA quotes this email directly, calling out the phrase \"we cannot afford to miss a superiority outcome\" as evidence of the intent behind what followed."
+  ]},
+  {date:"11-12 Nov 2019", title:"A clean bill of health , then a new search begins", flag:"flag", tag:"", body:[
+    "Dr. Yue asked Medpace's lead biostatistician to double-check the data. On November 12, Medpace confirmed the quality check found \"no findings\" , the data and analysis were correct.",
+    "Having been told nothing was wrong with the data itself, Drs. Bekker and Yue then ran a targeted, unblinded search of the database specifically for patients with a perfect symptom score (BVAS of zero) who'd been marked as 'not in remission' due to missing data or steroid use , the exact profile of a patient whose classification could plausibly be flipped."
+  ]},
+  {date:"13 Nov 2019", title:"Nine names, and a test run of the numbers", flag:"flag", tag:"", body:[
+    "Dr. Bekker sent Dr. Yue a table of nine subjects (three control, six avacopan) with proposed rationales for reclassifying each. The same day, Dr. Yue asked the statistical consultant to calculate what the p-value would look like under a hypothetical scenario , assuming five of the six avacopan patients flipped to 'sustained remission' and none of the three control patients did.",
+    "The consultant replied that this hypothetical dataset would indeed produce a statistically significant result. In other words, the specific reclassification outcome needed to make the drug 'work' was calculated <i>before</i> the readjudication was actually carried out."
+  ]},
+  {date:"14-15 Nov 2019", title:"The readjudication is set in motion", flag:"flag", tag:"", body:[
+    "Dr. Yue forwarded the candidate list to Medpace. Dr. Bekker spoke with Dr. David Jayne, the trial's Adjudication Committee Chair, about reviewing the nine cases (largely redacted in the public letter). Medpace then sent Dr. Jayne individual patient profiles for each of the nine, containing the original adjudication forms plus the specific facts flagged as relevant.",
+    "On November 15, Dr. Yue and Medpace personnel signed a formal 'post-datalock change approval form' , an internal acknowledgment that changes were about to be made to data that had already been locked."
+  ]},
+  {date:"Mid-Nov 2019", title:"The results come back: five of six flip", flag:"flag", tag:"The Outcome", body:[
+    "Dr. Jayne conducted the readjudication of all nine subjects in a blinded fashion , he didn't know which arm each patient was in while reviewing. But the FDA argues this doesn't cure the underlying bias, since the nine patients had already been hand-selected, unblinded, by Bekker and Yue specifically because reclassifying them could flip the trial's result.",
+    "The outcome: five of the six avacopan-arm subjects were reclassified from 'not in sustained remission' to 'sustained remission.' Only one of three control-arm subjects changed at all, and that change had no bearing on the primary week-52 outcome."
+  ]},
+  {date:"20 Nov 2019", title:"Second database lock. A new, positive result.", flag:"flag", tag:"Day 15", body:[
+    "The endpoint determinations were updated in the database, which was locked for a second time. The primary efficacy analysis was rerun , and this time it was statistically significant: a two-sided p-value of 0.0132, versus the failed 0.1025 from two weeks earlier.",
+    "This second analysis was the only primary endpoint result ever submitted to the FDA in the New Drug Application. The agency was never told a first, failed analysis had ever existed."
+  ]},
+  {date:"9 Dec 2020", title:"FDA asks a probing question , and gets a misleading answer", flag:"flag", tag:"Cover-up", body:[
+    "During NDA review, FDA specifically asked about \"document finalization and unblinding dates,\" concerned that the statistical analysis plan might have been influenced by seeing trial data early.",
+    "ChemoCentryx's written response referred only to \"the freeze of the study database, which occurred on 20 November 2019\" , omitting entirely that a first lock and a failed analysis had occurred on November 5. The FDA states plainly that this response was false by omission."
+  ]},
+  {date:"7 Oct 2021", title:"FDA approves Tavneos", flag:"good", tag:"Approval", body:[
+    "The FDA approved Tavneos for adjunctive treatment of severe ANCA-associated vasculitis. According to the FDA's own later account, its primary review team had not recommended approval even without knowledge of the manipulation , the eventual approval rested on a division director's belief that the trial was well-controlled and low-bias, a belief built on the false information ChemoCentryx had provided.",
+    "The FDA states explicitly: had the division director known the true, unmanipulated result was not statistically significant, he would not have recommended approval."
+  ]},
+  {date:"2021-2022", title:"Lawsuit filed. Amgen buys ChemoCentryx.", flag:"", tag:"", body:[
+    "Following public scrutiny of the trial data at a May 2021 FDA advisory committee meeting, a shareholder lawsuit alleging securities fraud was filed against ChemoCentryx. In 2022, Amgen acquired ChemoCentryx, inheriting both the drug and the pending litigation."
+  ]},
+  {date:"29 May 2025", title:"The Walton Report surfaces in litigation", flag:"flag", tag:"Turning Point", body:[
+    "Plaintiffs in the shareholder lawsuit filed an expert report by Marc Walton, MD, PhD, with the court. The report laid out, for the first time publicly, the November 2019 sequence of events described above , that an initial analysis had failed, that unblinded staff selected nine patients for reclassification, and that the revised analysis was submitted to the FDA without disclosing any of it."
+  ]},
+  {date:"15 Aug 2025", title:"Lawsuit dismissed , but the data questions aren't", flag:"", tag:"", body:[
+    "A federal court granted ChemoCentryx summary judgment in the shareholder lawsuit. The FDA is explicit that this ruling \"did not acknowledge or address the data manipulation allegations in the Walton Report and does not have any bearing on the status of the NDA.\""
+  ]},
+  {date:"23 Jul 2025", title:"FDA opens its own investigation", flag:"flag", tag:"", body:[
+    "After learning of the Walton Report, CDER sent Amgen a formal information request seeking a full account of how unblinded data had been handled in the ADVOCATE trial."
+  ]},
+  {date:"22 Aug 2025", title:"Amgen responds , and confirms the key facts", flag:"flag", tag:"Confirmation", body:[
+    "Amgen's written response confirmed the core factual allegations from the Walton Report: the initial failed analysis, the unblinded selection of nine patients, and the resulting flip in the trial's statistical outcome.",
+    "Amgen nevertheless maintained that the underlying data were accurate and that the readjudications had been appropriate quality-control corrections. The FDA states plainly: \"As explained below, FDA disagrees.\""
+  ]},
+  {date:"27 Apr 2026", title:"FDA issues its Notice of Opportunity for a Hearing", flag:"flag", tag:"FDA Notice", body:[
+    "CDER's Acting Director, Dr. Tracy Beth Høeg, formally notified Amgen of the agency's intent to withdraw Tavneos's approval, on the two legal grounds described above, and offered ChemoCentryx a chance to request a hearing.",
+    "The letter also disclosed a separate, independent safety concern: a review of post-marketing data found 76 cases of drug-induced liver injury linked to avacopan, including 7 confirmed cases of vanishing bile duct syndrome and 8 deaths."
+  ]},
+];
+
+const list = document.getElementById('tl-list');
+events.forEach((e)=>{
+  const item = document.createElement('div');
+  item.className = 'titem' + (e.flag ? ' '+e.flag : '');
+  const bodyHtml = (e.tag ? `<span class="pill ${e.flag||''}">${e.tag}</span><br>` : '') + e.body.map(p=>`<p>${p}</p>`).join('');
+  item.innerHTML = `
+    <div class="thead">
+      <div class="tdot"></div>
+      <div class="tdate">${e.date}</div>
+      <div class="ttitle">${e.title}</div>
+      <div class="tchev">▸</div>
+    </div>
+    <div class="tbody"><div class="tbody-inner">${bodyHtml}</div></div>
+  `;
+  item.querySelector('.thead').addEventListener('click', ()=> item.classList.toggle('open'));
+  list.appendChild(item);
+});
+list.children[0]?.classList.add('open');
+
+const castData = [
+  {role:"Chief Medical Officer", name:"Pirow Bekker, MD, PhD", desc:"ChemoCentryx's CMO and a listed co-author on the original NEJM paper. The FDA documents that Bekker received the first, failed unblinded analysis on Nov 8, 2019, wrote the Nov 9 email insisting the team \"cannot afford to miss a superiority outcome,\" and , after being told the data itself was clean , identified candidate patients for reclassification alongside Dr. Yue. He also spoke directly with the trial's Adjudication Committee Chair to set the readjudication in motion."},
+  {role:"Director of Biostatistics", name:"Huibin Yue, PhD", desc:"Ran the targeted unblinded database search that surfaced the nine candidate patients, requested the hypothetical p-value calculation that previewed what a favorable reclassification would produce, and forwarded the final list to Medpace and the Adjudication Committee. Signed the post-datalock change approval form on November 15, 2019."},
+  {role:"Adjudication Committee Chair", name:"David Jayne, MD", desc:"An independent academic investigator (and co-author on the original NEJM paper) who conducted the actual readjudication of the nine flagged patients, reportedly while blinded to which treatment arm each was in. The FDA argues that his blinding at the point of readjudication doesn't cure the bias introduced earlier, since the nine patients were selected , using unblinded knowledge of the results , specifically because their reclassification could flip the trial outcome. Jayne was later one of two academic authors who requested the NEJM retraction in June 2026."},
+  {role:"Statistical Consultant", name:"Chao Wang, PhD", desc:"An independent statistical consultant retained by ChemoCentryx. Verified the original (failed) analysis on request, and later calculated the hypothetical p-value showing what result a specific reclassification pattern would produce , confirming it would flip the study to statistically significant before the readjudication had even occurred."},
+  {role:"Contract Research Org.", name:"Medpace, Inc.", desc:"The CRO responsible for cleaning and locking the ADVOCATE database, generating unblinded datasets for QC review, and , per its own pre-lock checklists , confirming the data were accurate and complete before the November 5, 2019 lock. Medpace personnel later signed off on the post-lock change approval form permitting the disputed edits."},
+  {role:"Current owner", name:"Amgen", desc:"Acquired ChemoCentryx (and Tavneos) in 2022. Confirmed the core facts of the Walton Report when the FDA asked directly in 2025, but maintains the readjudications were legitimate corrections rather than manipulation, and continues to defend the drug's effectiveness ahead of its July 2026 hearing."},
+];
+const castGrid = document.getElementById('cast-grid');
+castData.forEach(c=>{
+  const card = document.createElement('div');
+  card.className = 'card';
+  card.innerHTML = `<div class="role">${c.role}</div><div class="name">${c.name}</div><div class="desc">${c.desc}</div><div class="hint">Click to read more →</div>`;
+  card.addEventListener('click', ()=> card.classList.toggle('open'));
+  castGrid.appendChild(card);
+});
+
+const progress=document.getElementById('progress');
+window.addEventListener('scroll',()=>{
+ const h=document.documentElement;
+ const p=(h.scrollTop)/(h.scrollHeight-h.clientHeight)*100;
+ progress.style.width=p+'%';
+});
+const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');}),{threshold:.1});
+document.querySelectorAll('section').forEach(s=>obs.observe(s));
+
+// Scroll-spy: keep nav button in sync with section currently in view
+const navSections = Array.from(document.querySelectorAll('section[id]'));
+const navBtns = document.querySelectorAll('.navbtn');
+let isNavClickScroll = false;
+
+const spyObs = new IntersectionObserver((entries)=>{
+  if(isNavClickScroll) return;
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){
+      const id = entry.target.id;
+      navBtns.forEach(b=>b.classList.toggle('active', b.dataset.target === id));
+    }
+  });
+}, {rootMargin:'-96px 0px -70% 0px', threshold:0});
+
+navSections.forEach(s=>spyObs.observe(s));
+
+document.querySelectorAll('.navbtn').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    isNavClickScroll = true;
+    navBtns.forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(btn.dataset.target).scrollIntoView({behavior:'smooth', block:'start'});
+    setTimeout(()=>{ isNavClickScroll = false; }, 900);
+  });
+});
+</script>
+</body>
+</html>
